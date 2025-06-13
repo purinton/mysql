@@ -1,0 +1,66 @@
+{
+    "name": "@purinton/mysql",
+    "type": "module",
+    "version": "1.0.0",
+    "description": "A Node.js mysql.",
+    "main": "index.cjs",
+    "module": "index.mjs",
+    "types": "index.d.ts",
+    "files": [
+        "index.mjs",
+        "index.cjs",
+        "index.d.ts",
+        "README.md",
+        "LICENSE"
+    ],
+    "exports": {
+        ".": {
+            "import": "./index.mjs",
+            "require": "./index.cjs",
+            "types": "./index.d.ts"
+        }
+    },
+    "scripts": {
+        "test": "npx --node-options=\"--experimental-vm-modules --no-warnings\" jest --detectOpenHandles --silent"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/purinton/mysql.git"
+    },
+    "keywords": [
+        "nodejs",
+        "module",
+        "template",
+        "boilerplate",
+        "javascript",
+        "typescript",
+        "esm",
+        "commonjs",
+        "cjs",
+        "package",
+        "library",
+        "npm",
+        "testing",
+        "jest",
+        "ci",
+        "continuous-integration",
+        "node"
+    ],
+    "author": "Russell Purinton <russell@purinton.us>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/purinton/mysql/issues"
+    },
+    "homepage": "https://github.com/purinton/mysql#readme",
+    "devDependencies": {
+        "jest": "^29.7.0"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "testMatch": [
+            "**/?(*.)+(spec|test).[jt]s?(x)",
+            "**/?(*.)+(spec|test).mjs",
+            "**/?(*.)+(spec|test).cjs"
+        ]
+    }
+}
