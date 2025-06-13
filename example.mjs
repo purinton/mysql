@@ -5,7 +5,7 @@ import { createDb } from '@purinton/mysql';
 (async () => {
     try {
         const db = await createDb({ logger: log });
-        log.info('MySQL pool created:', !!db);
+        log.info('MySQL pool created:', { db: !!db });
         await db.end();
     } catch (err) {
         log.error('Error:', err);
