@@ -1,12 +1,13 @@
 // Example usage for ES Modules
+import log from '@purinton/log';
 import { createDb } from '@purinton/mysql';
 
 (async () => {
     try {
-        const db = await createDb();
-        console.log('MySQL pool created:', !!db);
+        const db = await createDb({ logger: log });
+        log.info('MySQL pool created:', !!db);
         await db.end();
     } catch (err) {
-        console.error('Error:', err);
+        log.error('Error:', err);
     }
 })();
