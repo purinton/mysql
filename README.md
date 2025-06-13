@@ -2,7 +2,7 @@
 
 ## @purinton/mysql [![npm version](https://img.shields.io/npm/v/@purinton/mysql.svg)](https://www.npmjs.com/package/@purinton/mysql)[![license](https://img.shields.io/github/license/purinton/mysql.svg)](LICENSE)[![build status](https://github.com/purinton/mysql/actions/workflows/nodejs.yml/badge.svg)](https://github.com/purinton/mysql/actions)
 
-> A mysql for Node.js (Insert Brief Description)
+> A simple, dependency-injectable MySQL connection pool utility for Node.js, supporting both ESM and CommonJS.
 
 ---
 
@@ -19,6 +19,12 @@
 
 ## Features
 
+- Simple async function to create a MySQL connection pool
+- Supports both ESM and CommonJS
+- Dependency injection for testability (mock MySQL, logger, or env)
+- TypeScript type definitions included
+- Helpful error logging
+
 ## Installation
 
 ```bash
@@ -30,35 +36,75 @@ npm install @purinton/mysql
 ### ESM Example
 
 ```js
-// Example for ESM (module JS) usage
+import { createDb } from '@purinton/mysql';
 
+(async () => {
+  const db = await createDb();
+  // Use db.query, db.execute, etc.
+  await db.end();
+})();
 ```
 
 ### CommonJS Example
 
 ```js
-// Example for CommonJS usage
+const { createDb } = require('@purinton/mysql');
 
+(async () => {
+  const db = await createDb();
+  // Use db.query, db.execute, etc.
+  await db.end();
+})();
 ```
 
 ## API
 
-### method1 signature
+### createDb(options?)
 
-description
+Creates and returns a MySQL connection pool.
 
-### method2 signature
+**Parameters:**
 
-description
+- `options.env` (object, optional): Environment variables (default: `process.env`)
+- `options.mysqlLib` (object, optional): mysql2/promise module (default: dynamic import/require)
+- `options.logger` (object, optional): Logger instance (default: `@purinton/log`)
 
-... etc ...
+**Returns:**
+
+- `Promise<Pool>`: A MySQL connection pool instance
+
+**Throws:**
+
+- If required environment variables are missing
+- If pool creation fails
+
+**Example:**
+
+```js
+const db = await createDb({
+  env: {
+    MYSQL_HOST: 'localhost',
+    MYSQL_USERNAME: 'root',
+    MYSQL_PASSWORD: 'password',
+    MYSQL_DATABASE: 'test',
+  },
+  mysqlLib: require('mysql2/promise'), // or import('mysql2/promise') for ESM
+  logger: console,
+});
+```
 
 ## TypeScript
 
 Type definitions are included:
 
 ```ts
+export interface CreateDbOptions {
+  env?: Record<string, string>;
+  mysqlLib?: any;
+  logger?: any;
+}
 
+export function createDb(options?: CreateDbOptions): Promise<any>;
 ```
 
 ## Support
