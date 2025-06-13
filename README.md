@@ -84,7 +84,7 @@ Creates and returns a MySQL connection pool.
 Required:
 
 - `MYSQL_HOST` - MySQL server host
-- `MYSQL_USER` or `MYSQL_USERNAME` - MySQL username
+- `MYSQL_USER` - MySQL username
 - `MYSQL_PASSWORD` - MySQL password
 - `MYSQL_DATABASE` - MySQL database name
 
