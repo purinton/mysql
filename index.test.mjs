@@ -1,4 +1,4 @@
-import { createDb } from './index.mjs';
+import { createDb } from '@purinton/mysql';
 import { jest, test, expect, describe } from '@jest/globals';
 
 describe('createDb (ESM)', () => {

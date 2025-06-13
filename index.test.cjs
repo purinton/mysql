@@ -1,5 +1,5 @@
 // Minimal CommonJS test stub
-const { createDb } = require('./index.cjs');
+const { createDb } = require('@purinton/mysql');
 const { test, expect, describe } = require('@jest/globals');
 
 describe('createDb (CJS)', () => {
