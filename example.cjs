@@ -1,5 +1,5 @@
 // Example usage for CommonJS
-const { createDb } = require('./index.cjs');
+const { createDb } = require('@purinton/mysql');
 
 (async () => {
     try {

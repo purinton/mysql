@@ -1,5 +1,5 @@
 // Example usage for ES Modules
-import { createDb } from './index.mjs';
+import { createDb } from '@purinton/mysql';
 
 (async () => {
     try {
