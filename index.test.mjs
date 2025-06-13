@@ -7,7 +7,7 @@ describe('createDb (ESM)', () => {
         const fakeMysqlLib = { createPool: jest.fn(() => fakePool) };
         const env = {
             MYSQL_HOST: 'localhost',
-            MYSQL_USERNAME: 'root',
+            MYSQL_USER: 'root',
             MYSQL_PASSWORD: 'password',
             MYSQL_DATABASE: 'test',
         };
@@ -24,12 +24,12 @@ describe('createDb (ESM)', () => {
         const fakeMysqlLib = { createPool: jest.fn(() => { throw new Error('fail'); }) };
         const env = {
             MYSQL_HOST: 'localhost',
-            MYSQL_USERNAME: 'root',
+            MYSQL_USER: 'root',
             MYSQL_PASSWORD: 'password',
             MYSQL_DATABASE: 'test',
         };
         const logger = { error: jest.fn() };
         await expect(createDb({ env, mysqlLib: fakeMysqlLib, logger })).rejects.toThrow('fail');
-        expect(logger.error).toHaveBeenCalledWith('Failed to create MySQL connection pool', expect.any(Error));
+        expect(logger.error).toHaveBeenCalledWith('Failed to create MySQL connection pool', 'fail');
     });
 });

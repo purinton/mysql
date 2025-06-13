@@ -24,6 +24,7 @@
 - Dependency injection for testability (mock MySQL, logger, or env)
 - TypeScript type definitions included
 - Helpful error logging
+- Supports optional pool config via environment variables
 
 ## Installation
 
@@ -66,7 +67,7 @@ Creates and returns a MySQL connection pool.
 **Parameters:**
 
 - `options.env` (object, optional): Environment variables (default: `process.env`)
-- `options.mysqlLib` (object, optional): mysql2/promise module (default: dynamic import/require)
+- `options.mysqlLib` (object, optional): mysql2/promise module (default: dynamic import/require, must have createPool)
 - `options.logger` (object, optional): Logger instance (default: `@purinton/log`)
 
 **Returns:**
@@ -78,15 +79,33 @@ Creates and returns a MySQL connection pool.
 - If required environment variables are missing
 - If pool creation fails
 
+**Environment Variables:**
+
+Required:
+
+- `MYSQL_HOST` - MySQL server host
+- `MYSQL_USER` or `MYSQL_USERNAME` - MySQL username
+- `MYSQL_PASSWORD` - MySQL password
+- `MYSQL_DATABASE` - MySQL database name
+
+Optional:
+
+- `MYSQL_WAIT_FOR_CONNECTIONS` - true|false|1|0|yes|no|off (default: true)
+- `MYSQL_CONNECTION_LIMIT` - Max connections in pool (default: 10)
+- `MYSQL_QUEUE_LIMIT` - Max queued connection requests (default: 0)
+
 **Example:**
 
 ```js
 const db = await createDb({
   env: {
     MYSQL_HOST: 'localhost',
-    MYSQL_USERNAME: 'root',
+    MYSQL_USER: 'root',
     MYSQL_PASSWORD: 'password',
     MYSQL_DATABASE: 'test',
+    MYSQL_WAIT_FOR_CONNECTIONS: 'true',
+    MYSQL_CONNECTION_LIMIT: '20',
+    MYSQL_QUEUE_LIMIT: '5',
   },
   mysqlLib: require('mysql2/promise'), // or import('mysql2/promise') for ESM
   logger: console,
@@ -99,8 +118,11 @@ Type definitions are included:
 
 ```ts
 export interface CreateDbOptions {
+  /** Environment variables (default: process.env) */
   env?: Record<string, string>;
+  /** mysql2/promise module (default: dynamic import/require, must have createPool) */
   mysqlLib?: any;
+  /** Logger instance (default: log) */
   logger?: any;
 }
 
