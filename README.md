@@ -68,7 +68,7 @@ Creates and returns a MySQL connection pool.
 
 - `options.env` (object, optional): Environment variables (default: `process.env`)
 - `options.mysqlLib` (object, optional): mysql2/promise module (default: dynamic import/require, must have createPool)
-- `options.logger` (object, optional): Logger instance (default: `@purinton/log`)
+- `options.log` (object, optional): Logger instance (default: `@purinton/log`)
 
 **Returns:**
 
@@ -108,7 +108,7 @@ const db = await createDb({
     MYSQL_QUEUE_LIMIT: '5',
   },
   mysqlLib: require('mysql2/promise'), // or import('mysql2/promise') for ESM
-  logger: console,
+  log: console,
 });
 ```
 
@@ -123,7 +123,7 @@ export interface CreateDbOptions {
   /** mysql2/promise module (default: dynamic import/require, must have createPool) */
   mysqlLib?: any;
   /** Logger instance (default: log) */
-  logger?: any;
+  log?: any;
 }
 
 export function createDb(options?: CreateDbOptions): Promise<any>;

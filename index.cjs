@@ -1,11 +1,11 @@
-const log = require('@purinton/log');
+const logger = require('@purinton/log');
 /**
  * Creates and returns a MySQL connection pool, allowing dependency injection for testability.
  *
  * @param {Object} [options]
  * @param {Object} [options.env] - Environment variables (default: process.env)
  * @param {Object} [options.mysqlLib] - mysql2/promise module (default: require, must have createPool)
- * @param {Object} [options.logger] - Logger instance (default: log)
+ * @param {Object} [options.log] - Logger instance (default: log)
  * @returns {Promise<Object>} MySQL pool instance (see mysql2 docs)
  * @throws {Error} If required environment variables are missing or mysqlLib is invalid
  *
@@ -19,7 +19,7 @@ const log = require('@purinton/log');
  *   connectionLimit: 10 (from MYSQL_CONNECTION_LIMIT)
  *   queueLimit: 0 (from MYSQL_QUEUE_LIMIT)
  */
-async function createDb({ env = process.env, mysqlLib, logger = log } = {}) {
+async function createDb({ env = process.env, mysqlLib, log = logger } = {}) {
   const requiredVars = ['MYSQL_HOST', 'MYSQL_USER', 'MYSQL_PASSWORD', 'MYSQL_DATABASE'];
   const missing = requiredVars.filter((v) => !env[v]);
   if (missing.length) {
@@ -43,16 +43,16 @@ async function createDb({ env = process.env, mysqlLib, logger = log } = {}) {
 
   let db;
   try {
-    logger.debug && logger.debug('Loading mysql2/promise module...');
+    log.debug('Loading mysql2/promise module...');
     let mysqlModule = mysqlLib;
     if (!mysqlModule) {
       mysqlModule = require('mysql2/promise');
-      logger.debug && logger.debug('mysql2/promise required');
+      log.debug('mysql2/promise required');
     }
     if (typeof mysqlModule.createPool !== 'function') {
       throw new Error('Provided mysqlLib does not have a createPool method.');
     }
-    logger.debug && logger.debug('Creating MySQL pool with config', {
+    log.debug('Creating MySQL pool with config', {
       host: env.MYSQL_HOST,
       user: env.MYSQL_USER,
       database: env.MYSQL_DATABASE,
@@ -69,11 +69,11 @@ async function createDb({ env = process.env, mysqlLib, logger = log } = {}) {
       connectionLimit: parseIntEnv(env.MYSQL_CONNECTION_LIMIT, 10),
       queueLimit: parseIntEnv(env.MYSQL_QUEUE_LIMIT, 0)
     });
-    logger.debug && logger.debug('MySQL pool created');
+    log.debug('MySQL pool created');
   } catch (err) {
-    logger.error('Failed to create MySQL connection pool', err instanceof Error ? err.message : err);
-    if (logger.debug && err instanceof Error && err.stack) {
-      logger.debug('Stack trace:', err.stack);
+    log.error('Failed to create MySQL connection pool', err instanceof Error ? err.message : err);
+    if (err instanceof Error && err.stack) {
+      log.debug('Stack trace:', err.stack);
     }
     throw err;
   }

@@ -7,7 +7,7 @@ export interface CreateDbOptions {
     /** mysql2/promise module (default: dynamic import/require, must have createPool) */
     mysqlLib?: any;
     /** Logger instance (default: log) */
-    logger?: any;
+    log?: any;
 }
 
 /**

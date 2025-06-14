@@ -11,7 +11,8 @@ describe('createDb (ESM)', () => {
             MYSQL_PASSWORD: 'password',
             MYSQL_DATABASE: 'test',
         };
-        const db = await createDb({ env, mysqlLib: fakeMysqlLib, logger: { error: jest.fn() } });
+        const log = { error: jest.fn(), debug: jest.fn() };
+        const db = await createDb({ env, mysqlLib: fakeMysqlLib, log });
         expect(fakeMysqlLib.createPool).toHaveBeenCalledWith(expect.objectContaining({ host: 'localhost' }));
         expect(db).toBe(fakePool);
     });
@@ -28,8 +29,8 @@ describe('createDb (ESM)', () => {
             MYSQL_PASSWORD: 'password',
             MYSQL_DATABASE: 'test',
         };
-        const logger = { error: jest.fn() };
-        await expect(createDb({ env, mysqlLib: fakeMysqlLib, logger })).rejects.toThrow('fail');
-        expect(logger.error).toHaveBeenCalledWith('Failed to create MySQL connection pool', 'fail');
+        const log = { error: jest.fn(), debug: jest.fn() };
+        await expect(createDb({ env, mysqlLib: fakeMysqlLib, log })).rejects.toThrow('fail');
+        expect(log.error).toHaveBeenCalledWith('Failed to create MySQL connection pool', 'fail');
     });
 });

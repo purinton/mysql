@@ -4,7 +4,7 @@ const { createDb } = require('@purinton/mysql');
 
 (async () => {
     try {
-        const db = await createDb({ logger: log });
+        const db = await createDb({ log });
         log.info('MySQL pool created:', { db: !!db });
         await db.end();
     } catch (err) {
