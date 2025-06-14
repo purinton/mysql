@@ -1,10 +1,11 @@
 import logger from '@purinton/log';
+import * as mysql2Promise from 'mysql2/promise';
 /**
  * Creates and returns a MySQL connection pool, allowing dependency injection for testability.
  *
  * @param {Object} [options]
  * @param {Object} [options.env] - Environment variables (default: process.env)
- * @param {Object} [options.mysqlLib] - mysql2/promise module (default: dynamic import, must have createPool)
+ * @param {Object} [options.mysqlLib] - mysql2/promise module (default: static import, must have createPool)
  * @param {Object} [options.log] - Logger instance (default: log from @purinton/log)
  * @returns {Promise<import('mysql2/promise').Pool>} MySQL pool instance (see mysql2 docs)
  * @throws {Error} If required environment variables are missing or mysqlLib is invalid
@@ -44,11 +45,7 @@ export async function createDb({ env = process.env, mysqlLib, log = logger } = {
   let db;
   try {
     log.debug('Loading mysql2/promise module...');
-    let mysqlModule = mysqlLib;
-    if (!mysqlModule) {
-      mysqlModule = (await import('mysql2/promise'));
-      log.debug('mysql2/promise dynamically imported');
-    }
+    let mysqlModule = mysqlLib || mysql2Promise;
     if (typeof mysqlModule.createPool !== 'function') {
       throw new Error('Provided mysqlLib does not have a createPool method.');
     }

@@ -1,10 +1,11 @@
 const logger = require('@purinton/log');
+const mysql2Promise = require('mysql2/promise');
 /**
  * Creates and returns a MySQL connection pool, allowing dependency injection for testability.
  *
  * @param {Object} [options]
  * @param {Object} [options.env] - Environment variables (default: process.env)
- * @param {Object} [options.mysqlLib] - mysql2/promise module (default: require, must have createPool)
+ * @param {Object} [options.mysqlLib] - mysql2/promise module (default: static require, must have createPool)
  * @param {Object} [options.log] - Logger instance (default: log)
  * @returns {Promise<Object>} MySQL pool instance (see mysql2 docs)
  * @throws {Error} If required environment variables are missing or mysqlLib is invalid
@@ -44,11 +45,7 @@ async function createDb({ env = process.env, mysqlLib, log = logger } = {}) {
   let db;
   try {
     log.debug('Loading mysql2/promise module...');
-    let mysqlModule = mysqlLib;
-    if (!mysqlModule) {
-      mysqlModule = require('mysql2/promise');
-      log.debug('mysql2/promise required');
-    }
+    let mysqlModule = mysqlLib || mysql2Promise;
     if (typeof mysqlModule.createPool !== 'function') {
       throw new Error('Provided mysqlLib does not have a createPool method.');
     }
