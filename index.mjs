@@ -41,6 +41,8 @@ export async function createDb({ env = process.env, mysqlLib, log = logger } = {
     const n = parseInt(val, 10);
     return Number.isNaN(n) ? def : n;
   };
+  // Parse port env var (default to 3306)
+  const port = parseIntEnv(env.MYSQL_PORT, 3306);
 
   let db;
   try {
@@ -53,6 +55,7 @@ export async function createDb({ env = process.env, mysqlLib, log = logger } = {
       host: env.MYSQL_HOST,
       user: env.MYSQL_USER,
       database: env.MYSQL_DATABASE,
+      port: port,
       waitForConnections: parseBool(env.MYSQL_WAIT_FOR_CONNECTIONS, true),
       connectionLimit: parseIntEnv(env.MYSQL_CONNECTION_LIMIT, 10),
       queueLimit: parseIntEnv(env.MYSQL_QUEUE_LIMIT, 0)
@@ -62,6 +65,7 @@ export async function createDb({ env = process.env, mysqlLib, log = logger } = {
       user: env.MYSQL_USER,
       password: env.MYSQL_PASSWORD,
       database: env.MYSQL_DATABASE,
+      port: port,
       waitForConnections: parseBool(env.MYSQL_WAIT_FOR_CONNECTIONS, true),
       connectionLimit: parseIntEnv(env.MYSQL_CONNECTION_LIMIT, 10),
       queueLimit: parseIntEnv(env.MYSQL_QUEUE_LIMIT, 0)

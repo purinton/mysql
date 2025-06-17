@@ -11,10 +11,15 @@ describe('createDb (CJS)', () => {
             MYSQL_USER: 'root',
             MYSQL_PASSWORD: 'password',
             MYSQL_DATABASE: 'test',
+            MYSQL_PORT: '3307', // optional port override
         };
         const log = { error: jest.fn(), debug: jest.fn() };
         const db = await createDb({ env, mysqlLib: fakeMysqlLib, log });
         expect(fakeMysqlLib.createPool).toHaveBeenCalledWith(expect.objectContaining({ host: 'localhost' }));
+        expect(fakeMysqlLib.createPool).toHaveBeenCalledWith(expect.objectContaining({ user: 'root' }));
+        expect(fakeMysqlLib.createPool).toHaveBeenCalledWith(expect.objectContaining({ password: 'password' }));
+        expect(fakeMysqlLib.createPool).toHaveBeenCalledWith(expect.objectContaining({ database: 'test' }));
+        expect(fakeMysqlLib.createPool).toHaveBeenCalledWith(expect.objectContaining({ port: 3307 }));
         expect(db).toBe(fakePool);
     });
 

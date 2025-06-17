@@ -93,6 +93,7 @@ Optional:
 - `MYSQL_WAIT_FOR_CONNECTIONS` - true|false|1|0|yes|no|off (default: true)
 - `MYSQL_CONNECTION_LIMIT` - Max connections in pool (default: 10)
 - `MYSQL_QUEUE_LIMIT` - Max queued connection requests (default: 0)
+- `MYSQL_PORT` - MySQL server port (default: 3306)
 
 **Example:**
 
@@ -103,6 +104,7 @@ const db = await createDb({
     MYSQL_USER: 'root',
     MYSQL_PASSWORD: 'password',
     MYSQL_DATABASE: 'test',
+    MYSQL_PORT: '3306',
     MYSQL_WAIT_FOR_CONNECTIONS: 'true',
     MYSQL_CONNECTION_LIMIT: '20',
     MYSQL_QUEUE_LIMIT: '5',
