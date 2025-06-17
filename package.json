@@ -1,7 +1,7 @@
 {
     "name": "@purinton/mysql",
     "type": "module",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "A simple, dependency-injectable MySQL connection pool utility for Node.js, supporting both ESM and CommonJS.",
     "main": "index.cjs",
     "module": "index.mjs",
