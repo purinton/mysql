@@ -1,7 +1,7 @@
 {
     "name": "@purinton/mysql",
     "type": "module",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "description": "A simple, dependency-injectable MySQL connection pool utility for Node.js, supporting both ESM and CommonJS.",
     "main": "index.cjs",
     "module": "index.mjs",
@@ -43,7 +43,7 @@
     },
     "homepage": "https://github.com/purinton/mysql#readme",
     "devDependencies": {
-        "jest": "^30.0.0"
+        "jest": "^30.0.4"
     },
     "jest": {
         "testEnvironment": "node",
@@ -54,7 +54,7 @@
         ]
     },
     "dependencies": {
-        "@purinton/log": "^1.0.11",
-        "mysql2": "^3.14.1"
+        "@purinton/log": "^1.0.12",
+        "mysql2": "^3.14.2"
     }
 }
